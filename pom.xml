@@ -31,6 +31,17 @@
         </developer>
     </developers>
 
+    <scm>
+        <connection>scm:git:git://github.com/mikepthomas/${project.artifactId}.git</connection>
+        <developerConnection>scm:git:git@github.com:mikepthomas/${project.artifactId}.git</developerConnection>
+        <tag>master</tag>
+        <url>https://github.com/mikepthomas/${project.artifactId}</url>
+    </scm>
+    <issueManagement>
+        <system>GitHub Issues</system>
+        <url>https://github.com/mikepthomas/${project.artifactId}/issues</url>
+    </issueManagement>
+
     <properties>
         <endorsed.dir>${project.build.directory}/endorsed</endorsed.dir>
         <maven.compiler.source>1.8</maven.compiler.source>
@@ -203,6 +214,7 @@
                 <artifactId>maven-site-plugin</artifactId>
                 <configuration>
                     <generateSitemap>true</generateSitemap>
+                    <skipDeploy>true</skipDeploy>
                 </configuration>
                 <executions>
                     <execution>
@@ -380,6 +392,24 @@
             </activation>
             <build>
                 <plugins>
+                    <plugin>
+                        <groupId>com.github.github</groupId>
+                        <artifactId>site-maven-plugin</artifactId>
+                        <version>0.12</version>
+                        <configuration>
+                            <server>github</server>
+                            <merge>true</merge>
+                            <message>Creating site for ${project.version}</message>
+                        </configuration>
+                        <executions>
+                            <execution>
+                                <goals>
+                                    <goal>site</goal>
+                                </goals>
+                                <phase>site-deploy</phase>
+                            </execution>
+                        </executions>
+                    </plugin>
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-deploy-plugin</artifactId>

@@ -30,10 +30,12 @@ package info.mikethomas.shoppingbasket.rest;
  */
 
 import info.mikethomas.shoppingbasket.model.Basket;
+import info.mikethomas.shoppingbasket.model.Item;
 import info.mikethomas.shoppingbasket.model.Items;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
+import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 import javax.ws.rs.DELETE;
@@ -46,6 +48,9 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBException;
+import javax.xml.bind.Unmarshaller;
 
 /**
  *
@@ -57,6 +62,7 @@ import javax.ws.rs.core.Response;
 public class ShoppingBasketService {
 
     protected static Map<Integer, Basket> baskets = new HashMap<>();
+    protected final Items list = getFromXml(Items.class, "Items.xml");
 
     @GET
     @Path("/items")
@@ -64,51 +70,87 @@ public class ShoppingBasketService {
         @ApiResponse(code = 200, message = "List of items", response = Items.class)
     })
     public Response getItems() {
-        return Response.status(200).build();
+        return Response.status(200).entity(list).build();
     }
 
     @POST
     @Path("/add/{basket_id}")
     public Response addItem(
-            @PathParam("basket_id") int basket,
-            @QueryParam("item") int item,
+            @PathParam("basket_id") int basketId,
+            @QueryParam("item") int itemId,
             @QueryParam("quantity") int quantity) {
 
+        baskets.putIfAbsent(basketId, new Basket());
+        Basket basket = baskets.get(basketId);
+        Item item = list.getItem().get(itemId);
+        basket.getBasket().putIfAbsent(item, quantity);
         return Response.status(200).entity(basket).build();
     }
 
     @PUT
     @Path("/update/{basket_id}")
     public Response replaceItem(
-            @PathParam("basket_id") int basket,
-            @QueryParam("item") int item,
+            @PathParam("basket_id") int basketId,
+            @QueryParam("item") int itemId,
             @QueryParam("quantity") int quantity) {
 
+        baskets.putIfAbsent(basketId, new Basket());
+        Basket basket = baskets.get(basketId);
+        Item item = list.getItem().get(itemId);
+        basket.getBasket().replace(item, quantity);
         return Response.status(200).entity(basket).build();
     }
 
     @DELETE
     @Path("/remove/{basket_id}")
     public Response removeItem(
-            @PathParam("basket_id") int basket,
-            @QueryParam("item") int item) {
+            @PathParam("basket_id") int basketId,
+            @QueryParam("item") int itemId) {
 
+        baskets.putIfAbsent(basketId, new Basket());
+        Basket basket = baskets.get(basketId);
+        Item item = list.getItem().get(itemId);
+        basket.getBasket().remove(item);
         return Response.status(200).entity(basket).build();
     }
 
     @GET
     @Path("/contents/{basket_id}")
     public Response getContents(
-            @PathParam("basket_id") int basket) {
+            @PathParam("basket_id") int basketId) {
 
+        baskets.putIfAbsent(basketId, new Basket());
+        Basket basket = baskets.get(basketId);
         return Response.status(200).entity(basket).build();
     }
 
     @GET
     @Path("/total/{basket_id}")
     public Response getTotal(
-            @PathParam("basket_id") int basket) {
+            @PathParam("basket_id") int basketId) {
 
-        return Response.status(200).entity(basket).build();
+        baskets.putIfAbsent(basketId, new Basket());
+        Basket basket = baskets.get(basketId);
+        return Response.status(200).entity(basket.getTotal()).build();
+    }
+
+    /**
+     * <p>Helper method to construct the service classes from XML files.</p>
+     *
+     * @param type a {@link java.lang.Class} object.
+     * @param file a {@link java.lang.String} object.
+     * @param <T> a T object.
+     * @return a T object.
+     */
+    public static <T> T getFromXml(Class<T> type, String file) {
+        try {
+            JAXBContext context = JAXBContext.newInstance(type);
+            Unmarshaller unmarshaller = context.createUnmarshaller();
+            URL xml = type.getResource(file);
+            return type.cast(unmarshaller.unmarshal(xml));
+        } catch (JAXBException ex) {
+            System.err.println(ex);
+        }
+        return null;
     }
 }
