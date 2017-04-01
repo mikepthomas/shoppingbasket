@@ -1,0 +1,68 @@
+{
+  "name": "shoppingbasket",
+  "version": "1.0.0",
+  "authors": [
+    "Mike Thomas"
+  ],
+  "license": "BSD-2-Clause",
+  "keywords": [
+    "util",
+    "functional",
+    "server",
+    "client",
+    "browser"
+  ],
+  "homepage": "https://github.com/mikepthomas/shoppingbasket",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "bootstrap": "bootstrap-sass#3.3.7",
+    "jquery": "3.2.1",
+    "requirejs": "2.3.3",
+    "swagger": "swagger-ui#3.0.3"
+  },
+  "install": {
+    "path": {
+      "js": "src/main/webapp/libs",
+      "map": "src/main/webapp/libs",
+      "otf": "src/main/webapp/fonts/{key}",
+      "eot": "src/main/webapp/fonts/{key}",
+      "svg": "src/main/webapp/fonts/{key}",
+      "ttf": "src/main/webapp/fonts/{key}",
+      "woff": "src/main/webapp/fonts/{key}",
+      "woff2": "src/main/webapp/fonts/{key}"
+    },
+    "sources": {
+      "bootstrap": [
+        "bower_components/bootstrap/assets/fonts/bootstrap/glyphicons-halflings-regular.eot",
+        "bower_components/bootstrap/assets/fonts/bootstrap/glyphicons-halflings-regular.svg",
+        "bower_components/bootstrap/assets/fonts/bootstrap/glyphicons-halflings-regular.ttf",
+        "bower_components/bootstrap/assets/fonts/bootstrap/glyphicons-halflings-regular.woff",
+        "bower_components/bootstrap/assets/fonts/bootstrap/glyphicons-halflings-regular.woff2",
+        "bower_components/bootstrap/assets/javascripts/bootstrap.js",
+        "bower_components/bootstrap/assets/javascripts/bootstrap.min.js"
+      ],
+      "jquery": [
+        "bower_components/jquery/dist/jquery.js",
+        "bower_components/jquery/dist/jquery.min.js",
+        "bower_components/jquery/dist/jquery.min.map"
+      ],
+      "requirejs": [
+        "bower_components/requirejs/require.js"
+      ],
+      "swagger": [
+        "bower_components/swagger/dist/swagger-ui-bundle.js",
+        "bower_components/swagger/dist/swagger-ui-bundle.js.map",
+        "bower_components/swagger/dist/swagger-ui-standalone-preset.js",
+        "bower_components/swagger/dist/swagger-ui-standalone-preset.js.map",
+        "bower_components/swagger/dist/swagger-ui.js",
+        "bower_components/swagger/dist/swagger-ui.js.map"
+      ]
+    }
+  }
+}

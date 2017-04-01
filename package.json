@@ -1,0 +1,40 @@
+{
+  "name": "shoppingbasket",
+  "version": "1.0.0",
+  "author": "Mike Thomas",
+  "license": "BSD-2-Clause",
+  "main": "gulpfile.js",
+  "dependencies": {
+    "gulp": "^3.9.1",
+    "gulp-sass": "^3.1.0"
+  },
+  "devDependencies": {
+    "gulp-clean-css": "^3.0.3",
+    "gulp-filter": "^5.0.0",
+    "gulp-inject": "^4.2.0",
+    "gulp-load-plugins": "^1.5.0",
+    "gulp-rename": "^1.2.2",
+    "gulp-sourcemaps": "^2.4.1",
+    "gulp-uglify": "^2.1.0",
+    "gulp-watch": "^4.3.11",
+    "wiredep": "^4.0.0"
+  },
+  "scripts": {
+    "bower-installer": "bower-installer"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mikepthomas/shoppingbasket.git"
+  },
+  "keywords": [
+    "util",
+    "functional",
+    "server",
+    "client",
+    "browser"
+  ],
+  "bugs": {
+    "url": "https://github.com/mikepthomas/shoppingbasket/issues"
+  },
+  "homepage": "https://github.com/mikepthomas/shoppingbasket#readme"
+}

@@ -1,0 +1,8 @@
+.DS_Store
+bower_components
+node_modules
+src/main/webapp/libs
+src/main/webapp/js
+src/main/webapp/fonts
+src/main/webapp/css
+target
