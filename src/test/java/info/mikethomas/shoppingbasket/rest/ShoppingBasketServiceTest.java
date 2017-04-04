@@ -33,6 +33,7 @@ import info.mikethomas.shoppingbasket.model.Basket;
 import info.mikethomas.shoppingbasket.model.Item;
 import info.mikethomas.shoppingbasket.model.Items;
 import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.util.HashMap;
 import javax.ws.rs.core.Response;
 import org.junit.Test;
@@ -79,11 +80,11 @@ public class ShoppingBasketServiceTest {
         System.out.println("addItem");
         int basketId = 0;
         int itemId = 0;
-        int quantity = 1;
+        BigInteger quantity = BigInteger.ONE;
         ShoppingBasketService instance = new ShoppingBasketService();
         instance.addItem(basketId, itemId, quantity);
         Basket basket = instance.baskets.get(basketId);
-        assertEquals(quantity, basket.getBasket().size());
+        assertEquals(1, basket.getItems().size());
     }
 
     /**
@@ -94,15 +95,15 @@ public class ShoppingBasketServiceTest {
         System.out.println("replaceItem");
         int basketId = 0;
         int itemId = 0;
-        int quantity = 1;
+        BigInteger quantity = BigInteger.ONE;
         ShoppingBasketService instance = new ShoppingBasketService();
-        instance.addItem(basketId, itemId, 2);
+        instance.addItem(basketId, itemId, BigInteger.TEN);
         Basket basket = instance.baskets.get(basketId);
         Item item = instance.list.getItem().get(itemId);
-        assertEquals(2, basket.getBasket().get(item).intValue());
+        assertEquals(BigInteger.TEN, item.getQuantity());
         instance.replaceItem(basketId, itemId, quantity);
         basket = instance.baskets.get(basketId);
-        assertEquals(quantity, basket.getBasket().size());
+        assertEquals(1, basket.getItems().size());
     }
 
     /**
@@ -114,12 +115,12 @@ public class ShoppingBasketServiceTest {
         int basketId = 0;
         int itemId = 0;
         ShoppingBasketService instance = new ShoppingBasketService();
-        instance.addItem(basketId, itemId, 1);
+        instance.addItem(basketId, itemId, BigInteger.ONE);
         Basket basket = instance.baskets.get(basketId);
-        assertEquals(1, basket.getBasket().size());
+        assertEquals(1, basket.getItems().size());
         instance.removeItem(basketId, itemId);
         basket = instance.baskets.get(basketId);
-        assertEquals(0, basket.getBasket().size());
+        assertEquals(0, basket.getItems().size());
     }
 
     /**
@@ -130,10 +131,10 @@ public class ShoppingBasketServiceTest {
         System.out.println("getContents");
         int basketId = 0;
         ShoppingBasketService instance = new ShoppingBasketService();
-        instance.addItem(basketId, 0, 1);
+        instance.addItem(basketId, 0, BigInteger.ONE);
         Response result = instance.getContents(basketId);
         Basket basket = (Basket) result.getEntity();
-        assertEquals(1, basket.getBasket().size());
+        assertEquals(1, basket.getItems().size());
     }
 
     /**
@@ -144,9 +145,9 @@ public class ShoppingBasketServiceTest {
         System.out.println("getTotal");
         int basketId = 0;
         ShoppingBasketService instance = new ShoppingBasketService();
-        instance.addItem(basketId, 0, 1);
+        instance.addItem(basketId, 0, BigInteger.ONE);
         Response result = instance.getTotal(basketId);
-        Basket basket = (Basket) result.getEntity();
-        assertEquals("0.65", String.valueOf(basket.getTotal()));
+        BigDecimal total = (BigDecimal) result.getEntity();
+        assertEquals("0.65", String.valueOf(total));
     }
 }

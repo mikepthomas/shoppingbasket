@@ -44,6 +44,7 @@ POSSIBILITY OF SUCH DAMAGE.
                     </xs:simpleType>
                 </xs:element> 
                 <xs:element name="price" type="xs:decimal" />
+                <xs:element name="quantity" type="xs:integer" />
             </xs:sequence>
         </xs:complexType>
     </xs:element>

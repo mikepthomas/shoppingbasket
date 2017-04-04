@@ -35,6 +35,7 @@ import info.mikethomas.shoppingbasket.model.Items;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
+import java.math.BigInteger;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
@@ -78,12 +79,13 @@ public class ShoppingBasketService {
     public Response addItem(
             @PathParam("basket_id") int basketId,
             @QueryParam("item") int itemId,
-            @QueryParam("quantity") int quantity) {
+            @QueryParam("quantity") BigInteger quantity) {
 
         baskets.putIfAbsent(basketId, new Basket());
         Basket basket = baskets.get(basketId);
         Item item = list.getItem().get(itemId);
-        basket.getBasket().putIfAbsent(item, quantity);
+        item.setQuantity(quantity);
+        basket.getItems().add(item);
         return Response.status(200).entity(basket).build();
     }
 
@@ -92,12 +94,12 @@ public class ShoppingBasketService {
     public Response replaceItem(
             @PathParam("basket_id") int basketId,
             @QueryParam("item") int itemId,
-            @QueryParam("quantity") int quantity) {
+            @QueryParam("quantity") BigInteger quantity) {
 
         baskets.putIfAbsent(basketId, new Basket());
         Basket basket = baskets.get(basketId);
         Item item = list.getItem().get(itemId);
-        basket.getBasket().replace(item, quantity);
+        item.setQuantity(quantity);
         return Response.status(200).entity(basket).build();
     }
 
@@ -110,7 +112,7 @@ public class ShoppingBasketService {
         baskets.putIfAbsent(basketId, new Basket());
         Basket basket = baskets.get(basketId);
         Item item = list.getItem().get(itemId);
-        basket.getBasket().remove(item);
+        basket.getItems().remove(item);
         return Response.status(200).entity(basket).build();
     }
 
